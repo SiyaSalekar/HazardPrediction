@@ -33,3 +33,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
+
+# Define models to compare
+models = [
+    ('Decision Tree', DecisionTreeClassifier()),
+    ('Random Forest', RandomForestClassifier()),
+    ('Gradient Boosting', GradientBoostingClassifier()),
+    ('Logistic Regression', LogisticRegression())
+]
+
+# Train each model
+for name, model in models:
+    model.fit(X_train_scaled, y_train)
+    y_pred = model.predict(X_test_scaled)
+    
