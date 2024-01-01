@@ -14,5 +14,3 @@ data = pd.DataFrame({
     'UnauthorizedPersonnel': [0, 0, 0, 1, 0, 0],
     'Hazard': ['No Hazard', 'Fire', 'Structural Damage', 'Unauthorized Personnel', 'No Hazard', 'Structural Damage']
 })
-
-
