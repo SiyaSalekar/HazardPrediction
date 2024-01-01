@@ -10,7 +10,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import pandas as pd
+
 # Generating sample data for pallet retrieval
 np.random.seed(42)
 num_samples = 1000
@@ -21,3 +21,23 @@ data = {
     'Items_on_Pallet': np.random.randint(5, 25, size=num_samples),
     'Retrieval_Time_minutes': np.random.randint(10, 30, size=num_samples)
 }
+
+# Create aisle, row, and column based on Warehouse_Zone
+def generate_location(zone):
+    if zone == 'A':
+        aisle, row, column = '1', '1', np.random.choice(['1', '2', '3'])
+    elif zone == 'B':
+        aisle, row, column = '2', '2', np.random.choice(['1', '2', '3'])
+    elif zone == 'C':
+        aisle, row, column = '3', '3', np.random.choice(['1', '2', '3'])
+    else:  # Zone D
+        aisle, row, column = '4', '4', np.random.choice(['1', '2', '3'])
+    return f"Aisle {aisle}, Row {row}, Column {column}"
+
+data['Location'] = [generate_location(zone) for zone in data['Warehouse_Zone']]
+
+# Convert the data into a DataFrame
+df = pd.DataFrame(data)
+
+# Display the sample data
+print(df.head())
