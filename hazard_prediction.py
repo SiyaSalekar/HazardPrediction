@@ -70,3 +70,35 @@ best_model = grid_search.best_estimator_
 
 # Predict using the best model
 y_pred = best_model.predict(X_test)
+
+#model evaluation
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Best Model Accuracy: {accuracy * 100:.2f}%")
+
+# Generate classification report
+report = classification_report(y_test, y_pred, target_names=label_encoder.classes_)
+print("Classification Report:")
+print(report)
+
+# Generate confusion matrix
+matrix = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:")
+print(matrix)
+
+# Plot the confusion matrix for visualization
+plt.figure(figsize=(8, 6))
+sns.heatmap(matrix, annot=True, fmt="d", cmap="Blues", xticklabels=label_encoder.classes_,
+            yticklabels=label_encoder.classes_)
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.show()
+
+# Plot the number of each hazard type predicted
+plt.figure(figsize=(8, 6))
+sns.countplot(label_encoder.inverse_transform(y_pred), palette="Blues")
+plt.xlabel('Hazard Type')
+plt.ylabel('Count')
+plt.title('Number of Each Hazard Type Predicted')
+plt.show()
