@@ -115,3 +115,21 @@ for name, metrics in results.items():
     print(f"{name}:")
     for metric, value in metrics.items():
         print(f"  {metric}: {value}")
+
+#Evaluation with Additional Metrics
+results = {}
+for name, model in models.items():
+    if name == 'Random Forest':
+        grid_search = GridSearchCV(model, param_grid, cv=5, scoring='neg_mean_squared_error')
+        grid_search.fit(preprocessor.fit_transform(X_train), y_train)
+        best_params = grid_search.best_params_
+        model = RandomForestRegressor(**best_params, random_state=42)
+    
+    model.fit(preprocessor.fit_transform(X_train), y_train)
+    predictions = model.predict(preprocessor.transform(X_test))
+    mse = mean_squared_error(y_test, predictions)
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(y_test, predictions)
+    r2 = r2_score(y_test, predictions)
+    results[name] = {'Mean Squared Error (MSE)': mse, 'Root Mean Squared Error (RMSE)': rmse,
+                     'Mean Absolute Error (MAE)': mae, 'R-squared': r2}
