@@ -46,13 +46,16 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
-# Assuming df is the DataFrame containing the data
 
-# Extracting time-related features
+# Preprocessing: Extracting time-related features
 df['Hour_of_Day'] = df['Timestamp'].dt.hour
 df['Day_of_Week'] = df['Timestamp'].dt.dayofweek
 df['Month'] = df['Timestamp'].dt.month
 df.drop(['Timestamp'], axis=1, inplace=True)  # Drop original Timestamp column
+
+# Convert categorical columns to 'category' type
+for col in ['Warehouse_Zone', 'Location', 'Hour_of_Day', 'Day_of_Week', 'Month']:
+    df[col] = df[col].astype('category')
 
 # Define numeric and categorical features
 numeric_features = ['Distance_meters', 'Items_on_Pallet']
@@ -67,17 +70,18 @@ preprocessor = ColumnTransformer(
     remainder='drop'  # Drop any other columns not specified
 )
 
-# Append the model to the preprocessing pipeline
-pipeline = Pipeline(steps=[('preprocessor', preprocessor)])
-
 # Apply preprocessing to the data
-X_processed = pipeline.fit_transform(df)
+X_processed = preprocessor.fit_transform(df)
+
+# Convert X_processed (Sparse Matrix) to DataFrame for visualization purposes
+X_processed_df = pd.DataFrame.sparse.from_spmatrix(X_processed)
 
 # Split dataset into features and target variable
 y = df['Retrieval_Time_minutes'].values  # Target variable
 
 # Split data into training and testing sets (80% train, 20% test)
-X_train, X_test, y_train, y_test = train_test_split(X_processed, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X_processed_df, y, test_size=0.2, random_state=42)
+
 
 # Model Initialization
 models = {
