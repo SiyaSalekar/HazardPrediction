@@ -83,3 +83,10 @@ plt.title('Pallet Placements Based on Congestion and Previous Retrieval Time')
 plt.xlabel('Congestion')
 plt.ylabel('Previous Retrieval Time')
 plt.show()
+
+# Expected Placement Table
+placement_table = df.groupby(['Aisle', 'Row', 'Column']).agg({'Previous_Retrieval_Time': 'mean'}).reset_index()
+placement_table = placement_table.sort_values(by='Previous_Retrieval_Time')
+
+print("Expected Placement Table:")
+print(placement_table)
