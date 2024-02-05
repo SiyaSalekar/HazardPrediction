@@ -48,4 +48,14 @@ rf_model.fit(X_train, y_train)
 # predictions on the test set
 predictions = rf_model.predict(X_test)
 
+# Evaluating the model
+mse = mean_squared_error(y_test, predictions)
+rmse = np.sqrt(mse)
+mae = mean_absolute_error(y_test, predictions)
+r2 = r2_score(y_test, predictions)
+
+print(f"Mean Squared Error (MSE): {mse}")
+print(f"Root Mean Squared Error (RMSE): {rmse}")
+print(f"Mean Absolute Error (MAE): {mae}")
+print(f"R-squared: {r2}")
 
