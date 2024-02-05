@@ -38,3 +38,13 @@ df_encoded = pd.get_dummies(df, drop_first=True)
 X = df_encoded.drop('Previous_Retrieval_Time', axis=1)
 y = df_encoded['Previous_Retrieval_Time']
 
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+#Random Forest model based on research show the highest accuracy with dynamic warehouse data
+rf_model = RandomForestRegressor(random_state=42)
+rf_model.fit(X_train, y_train)
+
+# predictions on the test set
+predictions = rf_model.predict(X_test)
+
