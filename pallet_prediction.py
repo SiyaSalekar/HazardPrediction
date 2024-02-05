@@ -59,3 +59,27 @@ print(f"Root Mean Squared Error (RMSE): {rmse}")
 print(f"Mean Absolute Error (MAE): {mae}")
 print(f"R-squared: {r2}")
 
+# Visualize pallet placements based on Distance from Entry and Previous Retrieval Time
+plt.figure(figsize=(12, 6))
+sns.scatterplot(x='Distance_from_Entry', y='Previous_Retrieval_Time', hue='Weight', data=df)
+plt.title('Pallet Placements Based on Distance from Entry and Previous Retrieval Time')
+plt.xlabel('Distance from Entry')
+plt.ylabel('Previous Retrieval Time')
+plt.legend(title='Weight')
+plt.show()
+
+# Visualize pallet placements based on Aisle and Previous Retrieval Time
+plt.figure(figsize=(12, 6))
+sns.boxplot(x='Aisle', y='Previous_Retrieval_Time', data=df)
+plt.title('Pallet Placements Based on Aisle and Previous Retrieval Time')
+plt.xlabel('Aisle')
+plt.ylabel('Previous Retrieval Time')
+plt.show()
+
+# Visualize pallet placements based on Congestion and Previous Retrieval Time
+plt.figure(figsize=(12, 6))
+sns.violinplot(x='Congestion', y='Previous_Retrieval_Time', data=df)
+plt.title('Pallet Placements Based on Congestion and Previous Retrieval Time')
+plt.xlabel('Congestion')
+plt.ylabel('Previous Retrieval Time')
+plt.show()
