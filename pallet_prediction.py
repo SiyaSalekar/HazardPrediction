@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-# Generate sample data
+# Generate sample random data
 np.random.seed(42)
 num_samples = 1000
 
@@ -23,4 +23,18 @@ data = {
     'Temperature': np.random.choice(['normal', 'cold', 'hot'], size=num_samples),
     'Automation_Level': np.random.choice(['low', 'medium', 'high'], size=num_samples),
 }
+
+df = pd.DataFrame(data)
+
+# Convert categorical columns to 'category' type 
+categorical_cols = ['Weight', 'Aisle', 'Row', 'Column', 'Time_of_Day', 'Day_of_Week', 'Congestion', 'Temperature', 'Automation_Level']
+for col in categorical_cols:
+    df[col] = df[col].astype('category')
+
+# Encode categorical columns
+df_encoded = pd.get_dummies(df, drop_first=True)
+
+# Define features and target
+X = df_encoded.drop('Previous_Retrieval_Time', axis=1)
+y = df_encoded['Previous_Retrieval_Time']
 
